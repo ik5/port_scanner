@@ -45,10 +45,10 @@ func main() {
 	addr := "google.com"
 	port := 443
 	status, err := tcpConnect(addr, port, time.Duration(3)*time.Second)
-	format := "%s:%d - %s\n"
+	fmt.Printf("%s:%d - ", addr, port)
 	if status == errUnknown {
-		fmt.Printf(format, addr, port, err)
+		fmt.Println(err)
 	} else {
-		fmt.Printf(format, addr, port, status)
+		fmt.Println(status)
 	}
 }

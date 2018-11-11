@@ -8,15 +8,15 @@ import (
 )
 
 const (
-	errUnknown   = -5
-	connTimeout  = -4
-	connFiltered = -3
-	resolveError = -2
-	lookupError  = -1
-	connSuccess  = 1
+	errUnknown   = "Unknown error"
+	connTimeout  = "closed"
+	connFiltered = "filtered"
+	resolveError = "Resolve error"
+	lookupError  = "Lookup error"
+	connSuccess  = "open"
 )
 
-func tcpConnect(address string, port int, timeout time.Duration) (int, error) {
+func tcpConnect(address string, port int, timeout time.Duration) (string, error) {
 	ipList, err := net.LookupHost(address)
 	if err != nil {
 		return lookupError, err
@@ -41,26 +41,14 @@ func tcpConnect(address string, port int, timeout time.Duration) (int, error) {
 	return connSuccess, nil
 }
 
-func statusToStr(status int) string {
-	strStatus := map[int]string{
-		errUnknown:   "Unknown error",
-		connTimeout:  "closed",
-		connFiltered: "filtered",
-		resolveError: "Resolve error",
-		lookupError:  "Lookup error",
-		connSuccess:  "open",
-	}
-	return strStatus[status]
-}
-
 func main() {
 	addr := "google.com"
 	port := 443
-	statusInt, err := tcpConnect(addr, port, time.Duration(3)*time.Second)
+	status, err := tcpConnect(addr, port, time.Duration(3)*time.Second)
 	format := "%s:%d - %s\n"
-	if statusInt == errUnknown {
+	if status == errUnknown {
 		fmt.Printf(format, addr, port, err)
 	} else {
-		fmt.Printf(format, addr, port, statusToStr(statusInt))
+		fmt.Printf(format, addr, port, status)
 	}
 }

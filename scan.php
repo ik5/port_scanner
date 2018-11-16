@@ -25,7 +25,7 @@ function scan($address, $port, $timeout) {
       return 'closed';
       break;
     default :
-      print("$err\n");
+      return $err;
       break;
     }
   }

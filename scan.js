@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*jshint esversion: 6 */
 
 function scan(address, port, timeout, status) {
